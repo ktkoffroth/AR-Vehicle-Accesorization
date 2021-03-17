@@ -13,6 +13,8 @@ EditorBuildSettings:
       type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 3a8f0c4e7a14d81498779314a0f13712,
       type: 2}
+    com.unity.input.settings: {fileID: 11400000, guid: 569ff2aa4ff56ef45a21f010211e38ce,
+      type: 2}
     com.unity.xr.arcore.PlayerSettings: {fileID: 11400000, guid: 576e5c70da20b094cba9dabaf3450836,
       type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 5381ccd1c4c216c4aa7187c8f6ad0e52,

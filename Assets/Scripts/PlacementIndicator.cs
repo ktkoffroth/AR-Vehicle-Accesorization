@@ -19,7 +19,7 @@ public class PlacementIndicator : MonoBehaviour
         plane.SetActive(false);
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // Shoot a raycast from the center of the screen
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
