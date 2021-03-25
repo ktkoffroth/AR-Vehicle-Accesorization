@@ -26,14 +26,18 @@ public class ObjectPlacer : MonoBehaviour
     private void Awake()
     {
         placementIndicator.gameObject.SetActive(true);
+        Application.onBeforeRender += OnBeforeRender;
     }
 
-    void Update()
+    void Update() => PerformUpdate();
+    
+    void OnBeforeRender() => PerformUpdate();
+    
+    void PerformUpdate()
     {
-        _arCameraTransform = arCamera.transform;
-        _posOffset = _arCameraTransform.position - _placedObject.transform.position;
+        _posOffset = arCamera.transform.position - _placedObject.transform.position;
         _rotOffset = Quaternion.Euler(0,
-            _arCameraTransform.rotation.eulerAngles.y - _placedObject.transform.rotation.eulerAngles.y, 0);
+            arCamera.transform.rotation.eulerAngles.y - _placedObject.transform.rotation.eulerAngles.y, 0);
 
         if (_position)
             Position();

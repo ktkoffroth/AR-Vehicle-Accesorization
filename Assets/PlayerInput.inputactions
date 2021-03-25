@@ -7,7 +7,7 @@
             "actions": [
                 {
                     "name": "Position",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "308090f3-c2d6-468a-87a9-43c69d6b695a",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -15,7 +15,7 @@
                 },
                 {
                     "name": "Rotation",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "9b05542a-1acb-4dd8-80ca-85c001afad70",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -29,7 +29,7 @@
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Touch",
+                    "groups": "Keyboard&Mouse;Touch",
                     "action": "Position",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -40,7 +40,7 @@
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Touch",
+                    "groups": "Keyboard&Mouse;Touch",
                     "action": "Rotation",
                     "isComposite": false,
                     "isPartOfComposite": false
