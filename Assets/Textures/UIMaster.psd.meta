@@ -8,6 +8,18 @@ TextureImporter:
   - first:
       213: 8301644230491606718
     second: UIMaster_1
+  - first:
+      213: -5157295265717777263
+    second: UIMaster_2
+  - first:
+      213: -7627987003799175712
+    second: UIMaster_3
+  - first:
+      213: -4649604408401039927
+    second: UIMaster_4
+  - first:
+      213: 293913828462701164
+    second: UIMaster_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -141,8 +153,8 @@ TextureImporter:
       name: UIMaster_1
       rect:
         serializedVersion: 2
-        x: 260
-        y: 378
+        x: 259
+        y: 377
         width: 201
         height: 201
       alignment: 0
@@ -154,6 +166,90 @@ TextureImporter:
       bones: []
       spriteID: ebe8f12917d553370800000000000000
       internalID: 8301644230491606718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIMaster_2
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 377
+        width: 201
+        height: 201
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19c8615c74b9d68b0800000000000000
+      internalID: -5157295265717777263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIMaster_3
+      rect:
+        serializedVersion: 2
+        x: 756
+        y: 377
+        width: 201
+        height: 201
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0edf04f1c32f32690800000000000000
+      internalID: -7627987003799175712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIMaster_4
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 137
+        width: 201
+        height: 201
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9cd6a2bdc69497fb0800000000000000
+      internalID: -4649604408401039927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: UIMaster_5
+      rect:
+        serializedVersion: 2
+        x: 259
+        y: 139
+        width: 201
+        height: 201
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6a281cd111341400800000000000000
+      internalID: 293913828462701164
       vertices: []
       indices: 
       edges: []

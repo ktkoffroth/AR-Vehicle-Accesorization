@@ -2,34 +2,88 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.UI;
 
 public class PlayerInputController : MonoBehaviour
 {
-    public ObjectPlacer objectPlacer;
+    // Same-Level Unity Scripts
+    public ObjectPlacer ObjectPlacer;
 
-    private bool _position, _rotation;
-    private PlayerInput _playerInput;
+    // Public Script Behavior Control Variables
+    public bool position, rotation, targetLock; // (ObjectPlacer)
+
+    public bool lf, rf, lr, rr; // (AccessoryPlacer)
+    //public List<bool> AccessoryBools = new List<bool>(); // (AccessoryPlacer)
     
-    private void OnEnable()
+    // Image variables for sprite swapping
+    public Image targetLockImage;
+    public Sprite lockSprite, unlockSprite;
+
+    // Private variables/references
+    private WorldController _worldController;
+    
+    private void Awake()
     {
-        EnhancedTouchSupport.Enable();
-        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown += FingerDown;
-        _playerInput.Enable();
+        _worldController = gameObject.transform.parent.GetComponent<WorldController>();
     }
 
-    private void OnDisable()
+    // Advance one state in the FSM
+    public void OnNext()
     {
-        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
-        EnhancedTouchSupport.Disable();
-        _playerInput.Disable();
+        _worldController.Next();
+    }
+    
+    // Go back one state in the FSM
+    public void OnBack()
+    {
+        _worldController.Back();
+    }
+    
+    // Flip position variable for (ObjectPlacer)
+    public void OnPosition()
+    {
+        position = !position;
+    }
+    
+    // Flip rotation variable (ObjectPlacer)
+    public void OnRotation()
+    {
+        rotation = !rotation;
     }
 
-    private void FingerDown(Finger finger)
+    public void OnLf()
     {
-        objectPlacer.Touch();
-        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
-        EnhancedTouchSupport.Disable();
+        lf = !lf;
     }
+
+    public void OnRf()
+    {
+        rf = !rf;
+    }
+
+    public void OnLr()
+    {
+        lr = !lr;
+    }
+
+    public void OnRr()
+    {
+        rr = !rr;
+    }
+    
+    // Lock position of target, hide virtual target (ObjectPlacer)
+    public void OnTargetLock()
+    {
+        targetLock = !targetLock;
+
+        if (targetLock)
+        {
+            targetLockImage.sprite = unlockSprite;
+        }
+        else
+        {
+            targetLockImage.sprite = lockSprite;
+        }
+    }
+
 }

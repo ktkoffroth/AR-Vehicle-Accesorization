@@ -4,29 +4,57 @@ using System.Collections.Generic;
 using System.Xml;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem.EnhancedTouch;
 
 public class ObjectPlacer : MonoBehaviour
 {
     public GameObject placeObject;
-    public PlacementIndicator placementIndicator;
+    public GameObject placedObject;
     public Camera arCamera;
-    
-    private GameObject _placedObject;
-    private bool _position, _rotation;
+
+    private GameObject _placementIndicator;
+    private PlayerInputController _playerInputController;
     private Transform _arCameraTransform;
     private Vector3 _posOffset;
     private Quaternion _rotOffset;
 
-    void Start()
-    {
-        _placedObject = Instantiate(placeObject, Vector3.zero, Quaternion.Euler(0, 0, 0));
-        _placedObject.SetActive(false);
-    }
-
     private void Awake()
     {
-        placementIndicator.gameObject.SetActive(true);
+        // Setup our Target instance
+        placedObject = Instantiate(placeObject, Vector3.zero, Quaternion.Euler(0, 0, 0));
+        placedObject.SetActive(false);
+
+        // Find and set inactive placementIndicator GamObject
+        _placementIndicator = gameObject.transform.GetChild(0).gameObject;
+        _placementIndicator.gameObject.SetActive(false);
+        
+        // Find PlayerInputController
+        _playerInputController = FindObjectOfType<PlayerInputController>();
+
+        // Set onBeforeRender function, called just before the next frame is rendered
         Application.onBeforeRender += OnBeforeRender;
+    }
+
+    private void OnEnable()
+    {
+        _placementIndicator.gameObject.SetActive(true);
+        EnhancedTouchSupport.Enable();
+        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown += FingerDown;
+    }
+
+    private void OnDisable()
+    {
+        _placementIndicator.gameObject.SetActive(false);
+        placedObject.GetComponentsInChildren<MeshRenderer>()[0].enabled = false;
+        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
+        EnhancedTouchSupport.Disable();
+    }
+
+    private void FingerDown(Finger finger)
+    {
+        Touch();
+        UnityEngine.InputSystem.EnhancedTouch.Touch.onFingerDown -= FingerDown;
+        EnhancedTouchSupport.Disable();
     }
 
     void Update() => PerformUpdate();
@@ -35,41 +63,45 @@ public class ObjectPlacer : MonoBehaviour
     
     void PerformUpdate()
     {
-        _posOffset = arCamera.transform.position - _placedObject.transform.position;
-        _rotOffset = Quaternion.Euler(0,
-            arCamera.transform.rotation.eulerAngles.y - _placedObject.transform.rotation.eulerAngles.y, 0);
+        _posOffset = arCamera.transform.position - placedObject.transform.position;
+        _rotOffset = Quaternion.Euler(arCamera.transform.rotation.eulerAngles.x - placedObject.transform.rotation.eulerAngles.x,
+            arCamera.transform.rotation.eulerAngles.y - placedObject.transform.rotation.eulerAngles.y, arCamera.transform.rotation.eulerAngles.z - placedObject.transform.rotation.eulerAngles.z);
 
-        if (_position)
+        if (_playerInputController.position && !_playerInputController.targetLock)
             Position();
-        else if (_rotation)
+        else if (_playerInputController.rotation && !_playerInputController.targetLock)
             Rotation();
+        
+        // change layer of target
+        if (_playerInputController.targetLock)
+        {
+            placedObject.GetComponentsInChildren<MeshRenderer>()[0].enabled = false;
+        }
+        else
+        {
+            if (!placedObject.GetComponentsInChildren<MeshRenderer>()[0].enabled)
+            {
+                placedObject.GetComponentsInChildren<MeshRenderer>()[0].enabled = true;
+            }
+        }
     }
 
-    public void OnPosition()
+    private void Position()
     {
-        _position = !_position;
+        placedObject.transform.position = arCamera.transform.position + _posOffset;
     }
 
-    public void OnRotation()
+    private void Rotation()
     {
-        _rotation = !_rotation;
+        placedObject.transform.rotation = Quaternion.Euler(arCamera.transform.rotation.eulerAngles.x + _rotOffset.eulerAngles.x,
+            arCamera.transform.rotation.eulerAngles.y + _rotOffset.eulerAngles.y, arCamera.transform.rotation.eulerAngles.z + _rotOffset.eulerAngles.z);
     }
 
-    public void Position()
+    private void Touch()
     {
-        _placedObject.transform.position = arCamera.transform.position + _posOffset;
-    }
-
-    public void Rotation()
-    {
-        _placedObject.transform.rotation = Quaternion.Euler(0, arCamera.transform.rotation.eulerAngles.y + _rotOffset.eulerAngles.y, 0);
-    }
-
-    public void Touch()
-    {
-        _placedObject.transform.position = placementIndicator.transform.position;
-        _placedObject.transform.rotation = placementIndicator.transform.rotation;
-        _placedObject.SetActive(true);
-        placementIndicator.gameObject.SetActive(false);
+        placedObject.transform.position = _placementIndicator.transform.position;
+        placedObject.transform.rotation = _placementIndicator.transform.rotation;
+        placedObject.SetActive(true);
+        _placementIndicator.gameObject.SetActive(false);
     }
 }
